@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.TeacherDao">
+	<!-- 按id搜索老师 -->
+	<select id="selectByTno" resultType="com.example.demo.entity.Teacher">
+		select * from teacher where tno = #{tno}
+	</select>
+	
+	<!-- 查询老师学生的数量-->
+	<select id="selectNum" resultType="int">
+		 select * from sTot where tno = #{tno} ;
+	</select>
+	
+	<!-- 查询老师有学生 信息-->
+	<select id="getAllStudents" resultType="com.example.demo.entity.Student">
+		 select * from student,sTot where student.sno=sTot.sno and  tno = #{tno}
+	</select>
+	
+	<!-- 发布作业 -->
+	<update id="updateHomework">
+        update  teacher set homework=#{homework} where tno = #{tno}
+    </update>
+    
+    <insert id="insertStudent">
+    	insert into  sTot values(#{tno},#{sno});
+    </insert>
+	<insert id="insertTeacher">
+    	insert into  teacher values(#{tno},#{tname},#{tpassword});
+    </insert>
+</mapper>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8"/>
+    <title></title>
+    <style>
+        .panel-heading {
+            background-color: #337ab7;
+            border-color: #2e6da4;
+            font-size: 14px;
+            padding-left: 20px;
+            height: 36px;
+            line-height: 36px;
+            color: white;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /*转成手形图标*/
+        .panel-heading span {
+            position: absolute;
+            right: 10px;
+            top: 12px;
+        }
+
+        .mySize {
+            width: 55px;
+            height: 65px;
+        }
+
+    </style>
+    <!-- css files -->
+    <link rel="stylesheet" href="./bootstrap.min.css" type="text/css" media="all">
+    <!-- Bootstrap-Core-CSS -->
+    <link rel="stylesheet" href="./font-awesome.css" type="text/css" media="all">
+    <!-- Font-Awesome-Icons-CSS -->
+    <link rel="stylesheet" href="./owl.carousel.css" type="text/css" media="all" />
+    <!-- Owl-Carousel-CSS -->
+    <link rel="stylesheet" href="./style.css" type="text/css" media="all" />
+</head>
+<body >
+<div id="wrapper">
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">老师信息管理</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div id="tno" class="panel-heading" th:text="${teacher.tno}"></div>
+                    <div id="tname" class="panel-heading" th:text="${teacher.tname}"></div>
+                    <table class="table table-bordered table-striped" id="pet_table">
+
+                        <tr>
+                            <th>学生编号</th>
+                            <th>学生姓名</th>
+                            <th>学生作业</th>
+                            <th>添加学生</th>
+                            <th>发布作业</th>
+
+                        </tr>
+                        <tbody>
+                        <tr th:each="list:${students}">
+                            <td th:text="${list.sno}"></td>
+                            <td th:text="${list.sname}"></td>
+                            <td th:text="${list.shomework}"></td>
+                            <td>
+                                <button >添加</button>
+                            </td>
+                            <td >
+                                <button onclick="submit()">发布</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-8" id="page_info_area"></div>
+                        <div class="col-md-4" id="page_nav_area"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function submit(){
+        var xhr = new XMLHttpRequest();
+        var name=prompt("作业","");
+        var t = document.getElementById("tno");
+        tno=t.textContent;
+        alert(name+tno);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+               alert("发布成功！")
+            }
+        }
+        var data = {
+            tno:tno,
+            homework:name
+        }
+        data= JSON.stringify(data);
+        url="http://localhost:8080/launch"
+        xhr.open("post", url, true)
+        xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+        xhr.send(data);
+    }
+</script>
+
+</body>
+</html>
+

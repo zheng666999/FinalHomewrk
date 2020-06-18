@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.StudentDao">
+	<!-- 按学号搜索学生 -->
+	<select id="selectBySno" resultType="com.example.demo.entity.Student">
+		select * from student where sno = #{sno};
+	</select>
+	
+	<!-- 验证登录 -->
+	<select id="selectForValid" resultType="int">
+		 select count(*) from student where   sno = #{sno} and spassword =#{spassword} ;
+	</select>
+	
+	<!-- 查询有几个老师 -->
+	<select id="selectNum" resultType="int">
+		 select count(*) from student,sTot where student.sno=sTot.sno and student.sno = #{sno};
+	</select>
+	
+	<!-- 查询老师 及作业-->
+	<select id="selectTeacher" resultType="com.example.demo.entity.Teacher">
+		 select * from teacher,sTot where teacher.tno=sTot.tno and sTot.sno =#{sno} ;
+	</select>
+	
+	<update id="updateHomework">
+        update student set shomework  = #{shomework}  where sno = #{sno};
+    </update>
+    
+    <insert id="insertStudent">
+    	insert into student(sno,sname,spassword) values( #{sno},#{sname},#{spassword});
+    </insert>
+</mapper>
